@@ -7,6 +7,7 @@ CXXFLAGS = -I. -Wall
 #Seperate directories
 OBJ_DIR = ./obj
 SRC_DIR = ./src
+INC_DIR = ./include
 
 #Define source files and objects
 SOURCES = $(wildcard src/*.c)
