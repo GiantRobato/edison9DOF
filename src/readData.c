@@ -4,6 +4,7 @@
 #include <linux/i2c-dev.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <stdint.h>
 #include <fcntl.h>
 
 //TODO: Move the following defines into .h
@@ -13,8 +14,8 @@
 
 //The i2c device addresses
 //[]Comment how these addresses were found
-#define G_ADDRESS			0x1D
-#define XM_ADDRESS			0x6B
+#define G_ADDRESS			0x6b
+#define XM_ADDRESS			0x1d
 
 //Adress registers
 //[] Comment why these register addresses are the same
@@ -42,18 +43,18 @@ int main(int argc, char* argv[]){
 
 	//TODO: Move the following into a function called write_bytes
 	//Create data for storing the return values from reading the registers
-	uint8_t gyro_id;
+	uint8_t xm_id;
 
 	//need to use this struct for ioctl
 	struct i2c_rdwr_ioctl_data packets;
 	struct i2c_msg messages [2];
 
 	//add bit for multibyte read
-	uint8_t reg = WHO_AM_I_G | 0x80;
+	uint8_t reg = WHO_AM_I_XM;
 
 	//set data for i2c message
-	messages[0].addr 	= G_ADDRESS;
-	messages[0].flgas 	= 0; //write
+	messages[0].addr 	= XM_ADDRESS;
+	messages[0].flags 	= 0; //write
 	messages[0].len		= 1; //sending only 1 byte
 	messages[0].buf		= &reg; //pointer to msg data we want to send
 								//in this case it is specifiying the 
@@ -61,10 +62,10 @@ int main(int argc, char* argv[]){
 								// the who_am_i_reg
 
 	//read from i2c
-	messages[0].addr 	= G_ADDRESS;
-	messages[0].flgas 	= I2C_M_RD; //read
-	messages[0].len		= 1; //sending only 1 byte
-	messages[0].buf		= &gyro_id; //pointer to msg data, e.g. pointer to
+	messages[1].addr 	= XM_ADDRESS;
+	messages[1].flags 	= I2C_M_RD; //read
+	messages[1].len		= 1; //sending only 1 byte
+	messages[1].buf		= &xm_id; //pointer to msg data, e.g. pointer to
 									//where we want to store the output of the
 									//call
 
@@ -78,8 +79,13 @@ int main(int argc, char* argv[]){
 	//Also we are passing in a pointer to our packets.
 	ioctl(file, I2C_RDWR, &packets);
 
-	printf("Recieved back this message: %02x\n", gyro_id);
 
+	printf("accel & mag id: %02x\n", xm_id);
+	if(xm_id != 0x49){
+		printf("accel & mag id does not match!\n");
+	} else {
+		printf("accel & mag id matches!! \n");
+	}
 
 	return 0;
 }
