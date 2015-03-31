@@ -14,11 +14,10 @@ int main(int argc, char* argv[]){
 	printf("Opening the i2c sensor device!\n\n");
 
 	//Here we are opening the bus
-	int file;
+	int devFile = DMOpenDevFile();
 
 	//Using i2c-1 since that is what it is connected to on the Edison
-	if((file = open(I2C_DEV_NAME, O_RDWR)) < 0){
-		//This is for error handling
+	if(devFile < 0){
 		printf("Failed to open the i2c bus");
 		return 1;
 	}
@@ -62,7 +61,7 @@ int main(int argc, char* argv[]){
 	//Note how we use the the "file" variable when we do any ioctl call.
 	//We are setting the I2C_RDWR since we are doing both with our call.
 	//Also we are passing in a pointer to our packets.
-	ioctl(file, I2C_RDWR, &packets);
+	ioctl(devFile, I2C_RDWR, &packets);
 
 
 	printf("accel & mag id: %02x\n", xm_id);
@@ -101,7 +100,7 @@ int main(int argc, char* argv[]){
 	//Note how we use the the "file" variable when we do any ioctl call.
 	//We are setting the I2C_RDWR since we are doing both with our call.
 	//Also we are passing in a pointer to our packets.
-	ioctl(file, I2C_RDWR, &packets);
+	ioctl(devFile, I2C_RDWR, &packets);
 
 
 	printf("gyro id: %02x\n", gyro_id);

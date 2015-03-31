@@ -14,7 +14,7 @@ SOURCES = $(wildcard src/*.c)
 OBJECTS = $(SOURCES:.c=.o)
 
 #Listing Dependencies
-DEPS = intel-edison-9dof-imu-i2c.h
+DEPS = obj/intel-edison-9dof-imu-i2c.o
 
 EXES = bin/readData
 
@@ -25,8 +25,8 @@ obj/%.o: src/%.c
 
 all: $(EXES)
 
-bin/readData: obj/readData.o
-	$(CXX) -o $@ obj/readData.o 
+bin/readData: obj/readData.o $(DEPS)
+	$(CXX) -o $@ obj/readData.o $(DEPS)
 
 clean:
 	rm -rf obj/*.o bin/* 

@@ -12,6 +12,6 @@
 #define WHO_AM_I_XM			0x0F 
 #define WHO_AM_I_G			0x0F
 
-
+int DMOpenDevFile();
 
 #endif
