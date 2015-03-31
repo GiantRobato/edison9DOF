@@ -17,9 +17,7 @@ int main(int argc, char* argv[]){
 	int file;
 
 	//Using i2c-1 since that is what it is connected to on the Edison
-	char * filename = "/dev/i2c-1";
-	
-	if((file = open(filename, O_RDWR)) < 0){
+	if((file = open(I2C_DEV_NAME, O_RDWR)) < 0){
 		//This is for error handling
 		printf("Failed to open the i2c bus");
 		return 1;
