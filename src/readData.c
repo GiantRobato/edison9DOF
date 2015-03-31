@@ -9,19 +9,6 @@
 
 //TODO: Move the following defines into .h
 
-//The i2c bus being used
-#define I2C_DEV_NAME		"/dev/i2c-1"
-
-//The i2c device addresses
-//[]Comment how these addresses were found
-#define G_ADDRESS			0x6b
-#define XM_ADDRESS			0x1d
-
-//Adress registers
-//[] Comment why these register addresses are the same
-#define WHO_AM_I_XM			0x0F 
-#define WHO_AM_I_G			0x0F
-
 int main(int argc, char* argv[]){
 
 	printf("Opening the i2c sensor device!\n\n");
