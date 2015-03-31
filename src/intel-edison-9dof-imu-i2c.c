@@ -1,7 +1,7 @@
 #include "../include/intel-edison-9dof-imu-i2c.h"
 #include <fcntl.h>
 
-int DMopenDevFile(){
+int DMOpenDevFile(){
 	int file;
 	if((file = open(I2C_DEV_NAME, O_RDWR)) < 0){
 		//Could not open i2c bus
