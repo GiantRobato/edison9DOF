@@ -87,5 +87,44 @@ int main(int argc, char* argv[]){
 		printf("accel & mag id matches!! \n");
 	}
 
+
+	uint8_t gyro_id;
+
+	//
+	reg = WHO_AM_I_G;
+
+	//Do the same thing for gyro
+	//set data for i2c message
+	messages[0].addr 	= G_ADDRESS;
+	messages[0].flags 	= 0; //write
+	messages[0].len		= 1; //sending only 1 byte
+	messages[0].buf		= &reg; //pointer to msg data we want to send
+
+	//read from i2c
+	messages[1].addr 	= G_ADDRESS;
+	messages[1].flags 	= I2C_M_RD; //read
+	messages[1].len		= 1; //sending only 1 byte
+	messages[1].buf		= &gyro_id; //pointer to msg data, e.g. pointer to
+									//where we want to store the output of the
+									//call
+
+	//convert to proper i2c packet for sending
+	packets.msgs	= messages;
+	packets.nmsgs	= 2;
+
+	//Send the message and recieve!
+	//Note how we use the the "file" variable when we do any ioctl call.
+	//We are setting the I2C_RDWR since we are doing both with our call.
+	//Also we are passing in a pointer to our packets.
+	ioctl(file, I2C_RDWR, &packets);
+
+
+	printf("gyro id: %02x\n", gyro_id);
+	if(gyro_id != 0xD4){
+		printf("gyro id does not match!\n");
+	} else {
+		printf("gyro id matches!! \n");
+	}	
+
 	return 0;
 }
