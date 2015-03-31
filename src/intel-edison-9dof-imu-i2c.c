@@ -1,4 +1,5 @@
 #include "../include/intel-edison-9dof-imu-i2c.h"
+#include <fcntl.h>
 
 int DMopenDevFile(){
 	int file;
