@@ -22,7 +22,12 @@ int main(int argc, char* argv[]){
 		return 1;
 	}
 
-	DMPingSensors(devFile);	
+	if(DMPingSensors(devFile) < 0){
+		if(DEBUG_FLAG){
+			printf("Could not ping sensors");
+		}
+		return 1;
+	}	
 
 	return 0;
 }
