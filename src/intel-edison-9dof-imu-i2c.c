@@ -60,3 +60,27 @@ int DMReadI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_
 	return DMReadI2CMessages(devFile, i2cAddress, regAddress, 
 returnData, 1);
 }
+
+/**
+	This pings the sensors and returns a flag if it was successful or not. Note
+	that if DEBUG is on then it will give a print out to the console.
+
+	@param devFile the device file handler from open("file", <flags>)
+	@return 0 if successful, -1 if error
+**/
+int DMPingSensors(int devFile){
+	uint8_t xm_id, gyro_id;
+
+	DMReadI2CMessage(devFile, XM_ADDRESS, WHO_AM_I_XM, &xm_id);
+	DMReadI2CMessage(devFile, G_ADDRESS, WHO_AM_I_G, &gyro_id);
+
+	if(DEBUG_FLAG){
+		printf("gyro_id returned was: %x\n", gyro_id);
+		printf("xm_id returned was: %x\n", xm_id);
+	}
+
+	if(xm_id != 0x49 || gyro_id != 0xD4){
+		return -1
+	}
+	return 0;
+}

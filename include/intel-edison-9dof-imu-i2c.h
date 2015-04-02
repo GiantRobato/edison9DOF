@@ -14,8 +14,19 @@
 #define WHO_AM_I_XM			0x0F 
 #define WHO_AM_I_G			0x0F
 
+#define DEBUG
+
+//used to enable numerous debug print statements
+#ifdef 	DEBUG
+#define DEBUG_FLAG 1
+#else
+#define DEBUG_FLAG 0
+#endif
+
+
 int DMOpenDevFile();
 int DMReadI2CMessages(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_t *returnData, uint8_t count);
 int DMReadI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_t *returnData);
+int DMPingSensors(int devFile);
 
 #endif
