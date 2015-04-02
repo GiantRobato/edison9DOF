@@ -14,6 +14,10 @@
 #define WHO_AM_I_XM			0x0F 
 #define WHO_AM_I_G			0x0F
 
+//lets us read numerous bytes
+#define ENABLE_MULTI_BYTE_READ 0x80
+
+
 #define DEBUG
 
 //used to enable numerous debug print statements

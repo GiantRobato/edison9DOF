@@ -30,6 +30,8 @@ int DMReadI2CMessages(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8
 	struct i2c_rdwr_ioctl_data packets;
 	struct i2c_msg messages [2];
 
+	regAddress = regAddress | ENABLE_MULTI_BYTE_READ;
+
 	//specify to imu sensor which register we want to read from
 	messages[0].addr 	= i2cAddress;
 	messages[0].flags 	= 0;			//write
