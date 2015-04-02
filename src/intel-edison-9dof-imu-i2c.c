@@ -1,16 +1,30 @@
 #include "../include/intel-edison-9dof-imu-i2c.h"
 #include <fcntl.h>
 
+/**
+	Attempts to open the the device file for the i2c-1 bus
+
+	@return devFile which gives us a file handler for future ioctl calls
+**/
+
 int DMOpenDevFile(){
-	int file;
-	if((file = open(I2C_DEV_NAME, O_RDWR)) < 0){
+	int devFile;
+	if((devFile = open(I2C_DEV_NAME, O_RDWR)) < 0){
 		//Could not open i2c bus
 		return -1;
 	}
-	return file;
+	return devFile;
 }
 
-int DMReadI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_t *returnData, uint8_t count){
+/**
+	Sends multiple I2C messages 
+
+    @param devFile is the device file which is return from open("file", <flags>)
+    @param i2cAddress is the I2C address from the i2c-1 bus specifying which sensor
+    @param regAddress is the register address we are interested in on the sensor we specified
+    @return the output of the i2c call
+*/
+int DMReadI2CMessages(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_t *returnData, uint8_t count){
 	struct i2c_rdwr_ioctl_data packets;
 	struct i2c_msg messages [2];
 
@@ -34,6 +48,12 @@ int DMReadI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_
 	return ioctl(devFile, I2C_RDWR, &packets);
 }
 
+/**
+	Calls DMReadI2CMessages with count = 1, generally used to read a single
+	byte like the WHO_AM_I registers
+
+	(see DMReadI2CMessages for paramter descriptions)
+**/
 int DMReadI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_t *returnData){
 	return DMReadI2CMessage(devFile, i2cAddress, regAddress, returnData, 1);
 }
