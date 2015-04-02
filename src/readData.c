@@ -22,32 +22,7 @@ int main(int argc, char* argv[]){
 		return 1;
 	}
 
-	//TODO: Move the following into a function called write_bytes
-	//Create data for storing the return values from reading the registers
-	uint8_t xm_id;
-
-	//This will write to xm_id the output from reading the WHO_AM_I_XM register
-	DMReadI2CMessage(devFile, XM_ADDRESS, WHO_AM_I_XM, &xm_id);
-
-	printf("accel & mag id: %02x\n", xm_id);
-	if(xm_id != 0x49){
-		printf("accel & mag id does not match!\n");
-	} else {
-		printf("accel & mag id matches!! \n");
-	}
-
-
-	uint8_t gyro_id;
-
-	//This will write to gyro_id the output from reading the WHO_AM_I_G register
-	DMReadI2CMessage(devFile, G_ADDRESS, WHO_AM_I_G, &gyro_id);
-
-	printf("gyro id: %02x\n", gyro_id);
-	if(gyro_id != 0xD4){
-		printf("gyro id does not match!\n");
-	} else {
-		printf("gyro id matches!! \n");
-	}	
+	DMPingSensors(devFile);	
 
 	return 0;
 }

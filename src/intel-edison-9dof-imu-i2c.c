@@ -80,7 +80,7 @@ int DMPingSensors(int devFile){
 	}
 
 	if(xm_id != 0x49 || gyro_id != 0xD4){
-		return -1
+		return -1;
 	}
 	return 0;
 }
