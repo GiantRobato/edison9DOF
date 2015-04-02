@@ -1,4 +1,6 @@
 #include "../include/intel-edison-9dof-imu-i2c.h"
+#include <linux/i2c.h>
+#include <linux/i2c-dev.h>
 #include <fcntl.h>
 
 /**
@@ -55,5 +57,6 @@ int DMReadI2CMessages(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8
 	(see DMReadI2CMessages for paramter descriptions)
 **/
 int DMReadI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_t *returnData){
-	return DMReadI2CMessage(devFile, i2cAddress, regAddress, returnData, 1);
+	return DMReadI2CMessages(devFile, i2cAddress, regAddress, 
+returnData, 1);
 }
