@@ -75,8 +75,8 @@ int DMPingSensors(int devFile){
 	DMReadI2CMessage(devFile, G_ADDRESS, WHO_AM_I_G, &gyro_id);
 
 	if(DEBUG_FLAG){
-		printf("gyro_id returned was: %x\n", gyro_id);
-		printf("xm_id returned was: %x\n", xm_id);
+		printf("gyro_id returned was: %X\n", gyro_id);
+		printf("xm_id returned was: %X\n", xm_id);
 	}
 
 	if(xm_id != 0x49 || gyro_id != 0xD4){
