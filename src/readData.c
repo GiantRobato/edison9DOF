@@ -8,13 +8,6 @@
 #include <fcntl.h>
 
 //TODO: Move the following defines into .h
-#define G_REG_DATA 		0x28
-
-#define CTRL_REG4_G 	0x20
-
-//Enable Gyroscope in normal mode + enable x, y, z sensors
-#define EN_G_NM_XYZ 	0x0F
-
 
 int main(int argc, char* argv[]){
 
@@ -48,10 +41,10 @@ int main(int argc, char* argv[]){
 	int16_t z_raw;
 
 	//enable gyro sensor for reading
-	DMWriteI2CMessage(devFile, G_ADDRESS, CTRL_REG4_G, EN_G_NM_XYZ);
+	DMWriteI2CMessage(devFile, G_ADDRESS, CTRL_REG1_G, EN_G_NM_XYZ);
 
 	//read from gyro
-	DMReadI2CMessages(devFile, G_ADDRESS, G_REG_DATA, &data[0], 6);
+	DMReadI2CMessages(devFile, G_ADDRESS, GYRO_OUT_X_G, &data[0], 6);
 
 	//parse message data back into 16 bits
 	x_raw = ((data[1] << 8) | data[0]);

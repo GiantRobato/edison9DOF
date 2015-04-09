@@ -3,20 +3,40 @@
 
 #include <stdint.h>
 
+/******************
+|   I2C Defines   |
+******************/
+
 //The i2c bus being used
 #define I2C_DEV_NAME		"/dev/i2c-1"
 
 //The i2c device addresses
-#define G_ADDRESS			0x6b
-#define XM_ADDRESS			0x1d
+#define G_ADDRESS			0x6B
+#define XM_ADDRESS			0x1D
+
+/************************
+|   CONTROL Registers   |
+************************/
 
 //Adress registers
 #define WHO_AM_I_XM			0x0F 
 #define WHO_AM_I_G			0x0F
 
+//The register address for the output buffer
+#define GYRO_OUT_X_G 		0x28
+
+//Sensor Control registers
+#define CTRL_REG1_G 		0x20 	//register used to enable and turn on/off
+
+//Byte data to enable Gyroscope in normal mode + enable x, y, z sensors
+#define EN_G_NM_XYZ 		0x0F
+
+/*******************
+|   UTIL Defines   |
+*******************/
+
 //lets us read numerous bytes
 #define ENABLE_MULTI_BYTE_READ 0x80
-
 
 #define DEBUG
 

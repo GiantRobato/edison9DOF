@@ -58,7 +58,7 @@ int DMReadI2CMessages(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8
 	Calls DMReadI2CMessages with count = 1, generally used to read a single
 	byte like the WHO_AM_I registers
 
-	(see DMReadI2CMessages for paramter descriptions)
+	(see DMReadI2CMessages for parameter descriptions)
 **/
 int DMReadI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_t *returnData){
 	return DMReadI2CMessages(devFile, i2cAddress, regAddress, 
@@ -89,6 +89,17 @@ int DMPingSensors(int devFile){
 	return 0;
 }
 
+/**
+	Sends multiple I2C messages 
+
+    @param devFile is the device file which is return from open("file", <flags>)
+    @param i2cAddress is the I2C address from the i2c-1 bus specifying which sensor
+    @param *writeData the message you want to send to the i2c-1 bus. Usually sent
+    as 2 messages: the register on the i2c sensor and the byte data we want to write on
+    said register. (See DMWriteI2CMessage for example call)
+    @param count the number of I2C messages being sent
+    @return the output of the i2c call, returns a negative number if there was an error
+*/
 int DMWriteI2CMessages(int devFile, uint8_t i2cAddress, uint8_t *writeData, uint8_t count){
 	struct i2c_rdwr_ioctl_data packets;
 	struct i2c_msg messages [1];
@@ -104,6 +115,12 @@ int DMWriteI2CMessages(int devFile, uint8_t i2cAddress, uint8_t *writeData, uint
 	return ioctl(devFile, I2C_RDWR, &packets) >= 0;
 }
 
+/**
+	Send an I2C message to update a register specified by regAddress with the
+	data from writeData
+
+	(see DMWriteI2CMessages for parameter descriptions)
+*/
 int DMWriteI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_t writeData){
 	uint8_t buffer[2];
 
