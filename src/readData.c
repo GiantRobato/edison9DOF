@@ -29,5 +29,27 @@ int main(int argc, char* argv[]){
 		return 1;
 	}	
 
+	//store i2c messages
+	uint8_t data[6] = {0};
+
+	//hex address for acceleration measurements
+	uint8_t accelReg = 0x28;
+
+	//temporary storage variables
+	uint16_t x_raw;
+	uint16_t y_raw;
+	uint16_t z_raw;
+
+	//read from gyro
+	read_bytes (devFile, G_ADDRESS, accelReg, &data[0], 6);
+
+	//parse message data back into 16 bits
+	x_raw = ((data[1] << 8) | data[0]);
+	y_raw = ((data[3] << 8) | data[2]);
+	z_raw = ((data[5] << 8) | data[4]);
+
+	//print out reading
+	printf("read values: x = %d\ty = %d\tz = %d\n", x_raw, y_raw, z_raw);
+	
 	return 0;
 }
