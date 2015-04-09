@@ -36,12 +36,22 @@ int main(int argc, char* argv[]){
 	uint8_t accelReg = 0x28;
 
 	//temporary storage variables
-	uint16_t x_raw;
-	uint16_t y_raw;
-	uint16_t z_raw;
+	int16_t x_raw;
+	int16_t y_raw;
+	int16_t z_raw;
+
+	//normal mode, all axes
+	//write_byte(file, G_ADDRESS, CTRL_REG1_G, 0x0F);
+
+	//uint8_t reg4_g;
+	//zero the scale bits, then set them
+	//readbyte  (file, G_ADDRESS, CTRL_REG4_G, &reg4_g);
+	//write_byte(file, G_ADDRESS, CTRL_REG4_G, (reg4_g & 0xCF) | scale
+	//	<< 4);
+
 
 	//read from gyro
-	read_bytes (devFile, G_ADDRESS, accelReg, &data[0], 6);
+	DMReadI2CMessages(devFile, XM_ADDRESS, accelReg, &data[0], 6);
 
 	//parse message data back into 16 bits
 	x_raw = ((data[1] << 8) | data[0]);

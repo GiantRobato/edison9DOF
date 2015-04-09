@@ -38,10 +38,12 @@ int DMReadI2CMessages(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8
 	messages[0].len		= 1; 			//sending only 1 byte
 	messages[0].buf		= &regAddress;	//pointer to msg data we want to send
 
+
+
 	//read from register we specified
 	messages[1].addr 	= i2cAddress;
 	messages[1].flags 	= I2C_M_RD; 	//read
-	messages[1].len		= 1; 			//sending only 1 byte
+	messages[1].len		= count; 		//sending specified num of bytes
 	messages[1].buf		= returnData;	//write to returnData
 
 	//convert to proper i2c packet for sending
