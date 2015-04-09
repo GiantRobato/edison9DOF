@@ -8,6 +8,13 @@
 #include <fcntl.h>
 
 //TODO: Move the following defines into .h
+#define G_REG_DATA 		0x28
+
+#define CTRL_REG4_G 	0x20
+
+//Enable Gyroscope in normal mode + enable x, y, z sensors
+#define EN_G_NM_XYZ 	0x0F
+
 
 int main(int argc, char* argv[]){
 
@@ -33,25 +40,18 @@ int main(int argc, char* argv[]){
 	uint8_t data[6] = {0};
 
 	//hex address for acceleration measurements
-	uint8_t accelReg = 0x28;
+
 
 	//temporary storage variables
 	int16_t x_raw;
 	int16_t y_raw;
 	int16_t z_raw;
 
-	//normal mode, all axes
-	//write_byte(file, G_ADDRESS, CTRL_REG1_G, 0x0F);
-
-	//uint8_t reg4_g;
-	//zero the scale bits, then set them
-	//readbyte  (file, G_ADDRESS, CTRL_REG4_G, &reg4_g);
-	//write_byte(file, G_ADDRESS, CTRL_REG4_G, (reg4_g & 0xCF) | scale
-	//	<< 4);
-
+	//enable gyro sensor for reading
+	DMWriteI2CMessage(devFile, G_ADDRESS, CTRL_REG4_G, EN_G_NM_XYZ);
 
 	//read from gyro
-	DMReadI2CMessages(devFile, XM_ADDRESS, accelReg, &data[0], 6);
+	DMReadI2CMessages(devFile, G_ADDRESS, G_REG_DATA, &data[0], 6);
 
 	//parse message data back into 16 bits
 	x_raw = ((data[1] << 8) | data[0]);

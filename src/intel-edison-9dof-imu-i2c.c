@@ -88,3 +88,26 @@ int DMPingSensors(int devFile){
 	}
 	return 0;
 }
+
+int DMWriteI2CMessages(int devFile, uint8_t i2cAddress, uint8_t *writeData, uint8_t count){
+	struct i2c_rdwr_ioctl_data packets;
+	struct i2c_msg messages [1];
+
+	messages[0].addr 	= i2cAddress;
+	messages[0].flags 	= 0; 			//write
+	messages[0].len		= count; 		//sending specified num of bytes
+	messages[0].buf		= writeData;	//data to send to sensor
+
+	packets.msgs 		= messages;
+	packets.nmsgs 		= 1;
+
+	return ioctl(file, I2C_RDWR, &packets) >= 0;
+}
+
+int DMWriteI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_t writeData){
+	uint8_t buffer[2];
+
+	buffer[0] = regAddress;
+	buffer[1] = data;
+	return DMWriteI2CMessages(devFile, i2cAddress, buf, 2);
+}
