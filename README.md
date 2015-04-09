@@ -27,8 +27,8 @@ read values: x = 5600   y = -12072      z = -73
 See the Wiki! I talk about how the code works and why values are set the way are.
 
 ## Future features
- [] simple API to intialize, update settings, and read data
- [] example files and calibration executables
+ - [ ] simple API to intialize, update settings, and read data
+ - [ ] example files and calibration executables
 
 ##Copyright and License
 Code and documentation released under the MIT license
