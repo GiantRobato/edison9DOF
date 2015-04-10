@@ -129,6 +129,10 @@ int DMWriteI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8
 	return DMWriteI2CMessages(devFile, i2cAddress, buffer, 2);
 }
 
+int DMReadGyroRaw(int devFile, uint8_t *returnData){
+	return DMReadI2CMessages(devFile, G_ADDRESS, GYRO_OUT_X_G, &returnData[0], 6);
+}
+
 
 int DMInitGyro(int devFile){
 	DMWriteI2CMessage(devFile, G_ADDRESS, CTRL_REG1_G, EN_G_NM_XYZ);

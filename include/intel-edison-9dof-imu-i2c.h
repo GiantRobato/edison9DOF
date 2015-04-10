@@ -61,5 +61,6 @@ int DMWriteI2CMessages(int devFile, uint8_t i2cAddress, uint8_t *writeData, uint
 int DMWriteI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_t writeData);
 int DMPingSensors(int devFile);
 int DMInitGyro(int devFile);
+int DMReadGyroRaw(int devFile, uint8_t *returnData);
 
 #endif

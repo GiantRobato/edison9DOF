@@ -43,7 +43,7 @@ int main(int argc, char* argv[]){
 	DMInitGyro(devFile);
 
 	//read from gyro
-	DMReadI2CMessages(devFile, G_ADDRESS, GYRO_OUT_X_G, &data[0], 6);
+	DMReadGyroRaw(devFile, &data[0]);
 
 	//parse message data back into 16 bits
 	x_raw = ((data[1] << 8) | data[0]);
