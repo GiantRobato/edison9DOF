@@ -32,13 +32,8 @@ int main(int argc, char* argv[]){
 	//store i2c messages
 	uint8_t data[6] = {0};
 
-	//hex address for acceleration measurements
-
-
 	//temporary storage variables
-	int16_t x_raw;
-	int16_t y_raw;
-	int16_t z_raw;
+	struct Triplet rawData;
 
 	DMInitGyro(devFile);
 
@@ -46,12 +41,12 @@ int main(int argc, char* argv[]){
 	DMReadGyroRaw(devFile, &data[0]);
 
 	//parse message data back into 16 bits
-	x_raw = ((data[1] << 8) | data[0]);
-	y_raw = ((data[3] << 8) | data[2]);
-	z_raw = ((data[5] << 8) | data[4]);
+	rawData.x = ((data[1] << 8) | data[0]);
+	rawData.y = ((data[3] << 8) | data[2]);
+	rawData.z = ((data[5] << 8) | data[4]);
 
 	//print out reading
-	printf("read values: x = %d\ty = %d\tz = %d\n", x_raw, y_raw, z_raw);
+	printf("read values: x = %d\ty = %d\tz = %d\n", rawData.x, rawData.y, rawData.z);
 	
 	return 0;
 }
