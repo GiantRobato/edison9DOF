@@ -144,9 +144,9 @@ int DMReadGyroRawTriplet(int devFile, struct Triplet *rawData);
 	int read = DMReadGyroRaw(devFile, &data[0]);
 
 	//parse message data back into 16 bits
-	(*rawData).x = ((data[1] << 8) | data[0]);
-	(*rawData).y = ((data[3] << 8) | data[2]);
-	(*rawData).z = ((data[5] << 8) | data[4]);
+	rawData->x = ((data[1] << 8) | data[0]);
+	rawData->y = ((data[3] << 8) | data[2]);
+	rawData->z = ((data[5] << 8) | data[4]);
 
 	return read;
 }
