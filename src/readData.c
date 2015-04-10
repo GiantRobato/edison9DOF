@@ -29,21 +29,12 @@ int main(int argc, char* argv[]){
 		return 1;
 	}	
 
-	//store i2c messages
-	uint8_t data[6] = {0};
-
-	//temporary storage variables
-	struct Triplet rawData;
-
 	DMInitGyro(devFile);
 
-	//read from gyro
-	DMReadGyroRaw(devFile, &data[0]);
+	struct Triplet rawData;
 
-	//parse message data back into 16 bits
-	rawData.x = ((data[1] << 8) | data[0]);
-	rawData.y = ((data[3] << 8) | data[2]);
-	rawData.z = ((data[5] << 8) | data[4]);
+	DMReadGyroRawTriplet(devFile, &rawData);
+
 
 	//print out reading
 	printf("read values: x = %d\ty = %d\tz = %d\n", rawData.x, rawData.y, rawData.z);

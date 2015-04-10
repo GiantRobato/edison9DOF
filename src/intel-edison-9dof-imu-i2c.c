@@ -133,7 +133,20 @@ int DMReadGyroRaw(int devFile, uint8_t *returnData){
 	return DMReadI2CMessages(devFile, G_ADDRESS, GYRO_OUT_X_G, &returnData[0], 6);
 }
 
-
 int DMInitGyro(int devFile){
 	DMWriteI2CMessage(devFile, G_ADDRESS, CTRL_REG1_G, EN_G_NM_XYZ);
+}
+
+int DMReadGyroRawTriplet(int devFile, struct Triplet *rawData);
+	uint8_t data[6] = {0};
+	
+	//read from gyro
+	int read = DMReadGyroRaw(devFile, &data[0]);
+
+	//parse message data back into 16 bits
+	rawData->x = ((data[1] << 8) | data[0]);
+	rawData->y = ((data[3] << 8) | data[2]);
+	rawData->z = ((data[5] << 8) | data[4]);
+
+	return read;
 }
