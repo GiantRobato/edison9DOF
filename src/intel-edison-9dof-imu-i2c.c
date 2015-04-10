@@ -150,7 +150,6 @@ int DMReadGyroRaw(int devFile, uint8_t *returnData){
 	return DMReadI2CMessages(devFile, G_ADDRESS, GYRO_OUT_X, &returnData[0], 6);
 }
 
-
 /**
 	Reads the raw gyro data and stores it into the triplet datastructure
 
@@ -172,14 +171,35 @@ int DMReadGyroRawTriplet(int devFile, struct Triplet *rawData){
 	return read;
 }
 
+/**
+	Initializes the Accelerometer by enabling the control registers from power done mode
+	to normal mode. Also sets the enable pins for x,y, and z read to 1 (on).
+
+    @param devFile is the device file which is return from open("file", <flags>)
+    @return the output of the I2C call
+*/
 int DMInitAccel(int devFile){
 	return DMWriteI2CMessage(devFile, XM_ADDRESS, CTRL_REG1_XM, EN_XM_NM_XYZ);
 }
 
+/**
+	Reads the raw accel data and stores it into the provided buffer.
+
+    @param devFile is the device file which is return from open("file", <flags>)
+    @param returnData the buffer of int16_t of the raw unscaled value from the sensor
+    @return the output of the I2C call
+*/
 int DMReadAccelRaw(int devFile, uint8_t *returnData){
 	return DMReadI2CMessages(devFile, XM_ADDRESS, XM_OUT_A_X, &returnData[0], 6);	
 }
 
+/**
+	Reads the raw accel data and stores it into the triplet datastructure
+
+    @param devFile is the device file which is return from open("file", <flags>)
+    @param rawData a triplet of int16_t of the raw unscaled value from the sensor
+    @return the output of the I2C call
+*/
 int DMReadAccelRawTriplet(int devFile, struct Triplet *rawData){
 	uint8_t data[6] = {0};
 	

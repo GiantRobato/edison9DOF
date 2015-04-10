@@ -13,6 +13,9 @@
  * added Triplet Data structure
  * added DMReadGyroRaw()
  * added DMReadGyroTriplet()
+ * added DMInitAccel()
+ * added DMReadAccelRaw()
+ * added DMReadAccelTriplet()
 ### Changed
  * functionality to use Triplets versus multiple ints
 
