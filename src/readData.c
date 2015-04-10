@@ -40,8 +40,7 @@ int main(int argc, char* argv[]){
 	int16_t y_raw;
 	int16_t z_raw;
 
-	//enable gyro sensor for reading
-	DMWriteI2CMessage(devFile, G_ADDRESS, CTRL_REG1_G, EN_G_NM_XYZ);
+	DMInitGyro(devFile);
 
 	//read from gyro
 	DMReadI2CMessages(devFile, G_ADDRESS, GYRO_OUT_X_G, &data[0], 6);

@@ -47,6 +47,12 @@
 #define DEBUG_FLAG 0
 #endif
 
+struct Triplet{
+	int16_t x,
+	int16_t y,
+	int16_t z;
+};
+
 
 int DMOpenDevFile();
 int DMReadI2CMessages(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_t *returnData, uint8_t count);
@@ -54,5 +60,6 @@ int DMReadI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_
 int DMWriteI2CMessages(int devFile, uint8_t i2cAddress, uint8_t *writeData, uint8_t count);
 int DMWriteI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8_t writeData);
 int DMPingSensors(int devFile);
+int DMInitGyro(int devFile);
 
 #endif
