@@ -147,7 +147,7 @@ int DMInitGyro(int devFile){
     @return the output of the I2C call
 */
 int DMReadGyroRaw(int devFile, uint8_t *returnData){
-	return DMReadI2CMessages(devFile, G_ADDRESS, GYRO_OUT_X_G, &returnData[0], 6);
+	return DMReadI2CMessages(devFile, G_ADDRESS, GYRO_OUT_X, &returnData[0], 6);
 }
 
 
@@ -163,6 +163,28 @@ int DMReadGyroRawTriplet(int devFile, struct Triplet *rawData){
 	
 	//read from gyro
 	int read = DMReadGyroRaw(devFile, &data[0]);
+
+	//parse message data back into 16 bits
+	rawData->x = ((data[1] << 8) | data[0]);
+	rawData->y = ((data[3] << 8) | data[2]);
+	rawData->z = ((data[5] << 8) | data[4]);
+
+	return read;
+}
+
+int DMInitAccel(int devFile){
+	return DMWriteI2CMessage(devFile, XM_ADDRESS, CTRL_REG1_XM, EN_XM_NM_XYZ);
+}
+
+int DMReadAccelRaw(int devFile, uint8_t *returnData){
+	return DMReadI2CMessages(devFile, XM_ADDRESS, XM_OUT_A_X, &returnData[0], 6);	
+}
+
+int DMReadAccelRawTriplet(int devFile, struct Triplet *rawData){
+	uint8_t data[6] = {0};
+	
+	//read from gyro
+	int read = DMReadAccelRaw(devFile, &data[0]);
 
 	//parse message data back into 16 bits
 	rawData->x = ((data[1] << 8) | data[0]);
