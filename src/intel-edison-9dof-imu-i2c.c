@@ -8,7 +8,6 @@
 
 	@return devFile which gives us a file handler for future ioctl calls
 **/
-
 int DMOpenDevFile(){
 	int devFile;
 	if((devFile = open(I2C_DEV_NAME, O_RDWR)) < 0){
@@ -129,14 +128,36 @@ int DMWriteI2CMessage(int devFile, uint8_t i2cAddress, uint8_t regAddress, uint8
 	return DMWriteI2CMessages(devFile, i2cAddress, buffer, 2);
 }
 
-int DMReadGyroRaw(int devFile, uint8_t *returnData){
-	return DMReadI2CMessages(devFile, G_ADDRESS, GYRO_OUT_X_G, &returnData[0], 6);
-}
+/**
+	Initializes the Gyro by enabling the control registers from power done mode
+	to normal mode. Also sets the enable pins for x,y, and z read to 1 (on).
 
+    @param devFile is the device file which is return from open("file", <flags>)
+    @return the output of the I2C call
+*/
 int DMInitGyro(int devFile){
 	DMWriteI2CMessage(devFile, G_ADDRESS, CTRL_REG1_G, EN_G_NM_XYZ);
 }
 
+/**
+	Reads the raw gyro data and stores it into the provided buffer.
+
+    @param devFile is the device file which is return from open("file", <flags>)
+    @param returnData the buffer of int16_t of the raw unscaled value from the sensor
+    @return the output of the I2C call
+*/
+int DMReadGyroRaw(int devFile, uint8_t *returnData){
+	return DMReadI2CMessages(devFile, G_ADDRESS, GYRO_OUT_X_G, &returnData[0], 6);
+}
+
+
+/**
+	Reads the raw gyro data and stores it into the triplet datastructure
+
+    @param devFile is the device file which is return from open("file", <flags>)
+    @param rawData a triplet of int16_t of the raw unscaled value from the sensor
+    @return the output of the I2C call
+*/
 int DMReadGyroRawTriplet(int devFile, struct Triplet *rawData){
 	uint8_t data[6] = {0};
 	

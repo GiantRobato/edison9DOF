@@ -8,6 +8,14 @@
  * Function(s) to set Full Scale Values
  * Implement in OO flaver (possibly future github project)
 
+## 0.1.2 - 2015-04-10
+### Added
+ * added Triplet Data structure
+ * added DMReadGyroRaw()
+ * added DMReadGyroTriplet()
+### Changed
+ * functionality to use Triplets versus multiple ints
+
 ## 0.1.1 - 2015-04-08
 ### Added
  * added function comments
