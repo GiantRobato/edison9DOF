@@ -137,7 +137,7 @@ int DMInitGyro(int devFile){
 	DMWriteI2CMessage(devFile, G_ADDRESS, CTRL_REG1_G, EN_G_NM_XYZ);
 }
 
-int DMReadGyroRawTriplet(int devFile, struct Triplet *rawData);
+int DMReadGyroRawTriplet(int devFile, struct Triplet *rawData){
 	uint8_t data[6] = {0};
 	
 	//read from gyro
