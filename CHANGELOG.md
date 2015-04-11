@@ -16,6 +16,9 @@
  * added DMInitAccel()
  * added DMReadAccelRaw()
  * added DMReadAccelTriplet()
+ * added DMInitMag()
+ * added DMReadMagRaw()
+ * added DMReadMagTriplet()
 ### Changed
  * functionality to use Triplets versus multiple ints
 
