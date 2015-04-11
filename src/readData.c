@@ -29,11 +29,11 @@ int main(int argc, char* argv[]){
 		return 1;
 	}	
 
-	DMInitAccel(devFile);
+	DMInitMag(devFile);
 
 	struct Triplet rawData;
 
-	DMReadAccelRawTriplet(devFile, &rawData);
+	DMReadMagRawTriplet(devFile, &rawData);
 
 
 	//print out reading

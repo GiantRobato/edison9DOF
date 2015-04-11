@@ -25,20 +25,28 @@
 //The register address for the output buffer
 #define GYRO_OUT_X	 			0x28
 #define XM_OUT_A_X 				0x28
+#define XM_OUT_M_X 				0x08
+
 //Sensor Control registers
 #define CTRL_REG1_G 			0x20 	//register used to enable and turn on/off
 #define CTRL_REG1_XM 			0x20 	//register used to enable and turn on/off
+#define CTRL_REG5_XM 			0x24 	//register to set sample rate for Mag
+#define CTRL_REG7_XM 			0x26 	//register to set magnetic sensor mode (power down / continous conversion/ etc)
 
 //Byte data to enable Gyroscope in normal mode + enable x, y, z sensors
 #define EN_G_NM_XYZ 			0x0F
 
 //Byte data to enable Accelerometer in normal mode + enable x, y, z sensors
-#define EN_XM_NM_XYZ			0x57	//configure sensor to 50hz
-#define EN_XM_NM_XYZ_100HZ		0x67
-#define EN_XM_NM_XYZ_200HZ		0x77
-#define EN_XM_NM_XYZ_400HZ		0x87
-#define EN_XM_NM_XYZ_800HZ		0x97
-#define EN_XM_NM_XYZ_1600HZ		0xA7
+#define EN_X_NM_XYZ				0x57	//configure sensor to 50hz
+#define EN_X_NM_XYZ_100HZ		0x67
+#define EN_X_NM_XYZ_200HZ		0x77
+#define EN_X_NM_XYZ_400HZ		0x87
+#define EN_X_NM_XYZ_800HZ		0x97
+#define EN_X_NM_XYZ_1600HZ		0xA7
+
+//Byte data for Magnetometer
+#define XM_M_T_ON_50 			0x98 	//Turn temp sensor on, set update to 50Hz
+#define EN_M_NM_XYZ 			0x00 	//Normal mode + reset reading
 
 /*******************
 |   UTIL Defines   |
@@ -75,5 +83,8 @@ int DMReadGyroRawTriplet(int devFile, struct Triplet *rawData);
 int DMInitAccel(int devFile);
 int DMReadAccelRaw(int devFile, uint8_t *returnData);
 int DMReadAccelRawTriplet(int devFile, struct Triplet *rawData);
+int DMInitMag(int devFile);
+int DMReadMagRaw(int devFile, uint8_t *returnData);
+int DMReadMagRawTriplet(int devFile, struct Triplet *rawData);
 
 #endif

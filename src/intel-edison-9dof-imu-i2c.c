@@ -179,7 +179,7 @@ int DMReadGyroRawTriplet(int devFile, struct Triplet *rawData){
     @return the output of the I2C call
 */
 int DMInitAccel(int devFile){
-	return DMWriteI2CMessage(devFile, XM_ADDRESS, CTRL_REG1_XM, EN_XM_NM_XYZ);
+	return DMWriteI2CMessage(devFile, XM_ADDRESS, CTRL_REG1_XM, EN_X_NM_XYZ);
 }
 
 /**
@@ -201,6 +201,32 @@ int DMReadAccelRaw(int devFile, uint8_t *returnData){
     @return the output of the I2C call
 */
 int DMReadAccelRawTriplet(int devFile, struct Triplet *rawData){
+	uint8_t data[6] = {0};
+	
+	//read from gyro
+	int read = DMReadAccelRaw(devFile, &data[0]);
+
+	//parse message data back into 16 bits
+	rawData->x = ((data[1] << 8) | data[0]);
+	rawData->y = ((data[3] << 8) | data[2]);
+	rawData->z = ((data[5] << 8) | data[4]);
+
+	return read;
+}
+
+int DMInitMag(int devFile){
+	//turn on temperature sensor and set update to 50Hz
+	DMWriteI2CMessage (devFile, XM_ADDRESS, CTRL_REG5_XM, XM_M_T_ON_50);
+
+	//This is the line that actually turns on the magnetometer
+	return DMWriteI2CMessage(devFile, XM_ADDRESS, CTRL_REG7_XM, EN_M_NM_XYZ);
+}
+
+int DMReadMagRaw(int devFile, uint8_t *returnData){
+	return DMReadI2CMessages(devFile, XM_ADDRESS, XM_OUT_M_X, &returnData[0], 6);
+}
+
+int DMReadMagRawTriplet(int devFile, struct Triplet *rawData){
 	uint8_t data[6] = {0};
 	
 	//read from gyro
